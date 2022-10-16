@@ -109,27 +109,27 @@ describe('Todos', () => {
     });
   });
 
-  // it('should not be able to update a non existing todo', async () => {
-  //   const userResponse = await request(app)
-  //     .post('/users')
-  //     .send({
-  //       name: 'John Doe',
-  //       username: 'user8'
-  //     });
+  it('should not be able to update a non existing todo', async () => {
+    const userResponse = await request(app)
+      .post('/users')
+      .send({
+        name: 'John Doe',
+        username: 'user8'
+      });
 
-  //   const todoDate = new Date();
+    const todoDate = new Date();
 
-  //   const response = await request(app)
-  //     .put('/todos/invalid-todo-id')
-  //     .send({
-  //       title: 'update title',
-  //       deadline: todoDate
-  //     })
-  //     .set('username', userResponse.body.username)
-  //     .expect(404);
+    const response = await request(app)
+      .put('/todos/invalid-todo-id')
+      .send({
+        title: 'update title',
+        deadline: todoDate
+      })
+      .set('username', userResponse.body.username)
+      .expect(404);
 
-  //   expect(response.body.error).toBeTruthy();
-  // });
+    expect(response.body.error).toBeTruthy();
+  });
 
   // it('should be able to mark a todo as done', async () => {
   //   const userResponse = await request(app)
