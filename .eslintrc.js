@@ -5,18 +5,13 @@ module.exports = {
     es2021: true,
     node: true,
   },
-  extends: 'airbnb-base',
+  extends: ['plugin:jest/recommended', 'plugin:jest/style', 'airbnb-base'],
   plugins: ['jest'],
-  overrides: [
-  ],
+  overrides: [{ files: './src/__test__/*' }],
   parserOptions: {
     ecmaVersion: 'latest',
   },
   rules: {
-    'jest/no-disabled-tests': 'warn',
-    'jest/no-focused-tests': 'error',
-    'jest/no-identical-title': 'error',
-    'jest/prefer-to-have-length': 'warn',
-    'jest/valid-expect': 'error',
   },
+
 };

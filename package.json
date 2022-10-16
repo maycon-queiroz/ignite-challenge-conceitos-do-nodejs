@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon",
     "test": "jest --passWithNoTests",
-    "test:staged": "yarn test --silent --findRelatedTests",
+    "test:staged": "yarn test --findRelatedTests",
     "test:unit": "yarn test --watchAll --findRelatedTests ./src/**.js",
     "prepare": "husky install"
   },
