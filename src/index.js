@@ -23,6 +23,20 @@ function checksExistsUserAccount(request, response, next) {
   return next();
 }
 
+function checkExistsTodo(request, response, next) {
+  const { todos } = request.user;
+  const { id } = request.params;
+
+  const todo = todos.find((currentTodo) => currentTodo.id === id);
+
+  if (!todo) {
+    return response.status(404).json({ error: 'Todd not found' });
+  }
+
+  request.todo = todo;
+  return next();
+}
+
 app.post('/users', (request, response) => {
   const { name, username } = request.body;
 
@@ -66,16 +80,9 @@ app.post('/todos', checksExistsUserAccount, (request, response) => {
   return response.status(201).json(...user.todos);
 });
 
-app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
-  const { todos } = request.user;
-  const { id } = request.params;
+app.put('/todos/:id', checksExistsUserAccount, checkExistsTodo, (request, response) => {
+  const { todo } = request;
   const { title, deadline } = request.body;
-
-  const todo = todos.find((currentTodo) => currentTodo.id === id);
-
-  if (!todo) {
-    return response.status(404).json({ error: 'Todd not found' });
-  }
 
   todo.title = title;
   todo.deadline = new Date(deadline);
@@ -83,23 +90,19 @@ app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
   return response.status(200).json(todo);
 });
 
-app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
-  const { todos } = request.user;
-  const { id } = request.params;
-
-  const todo = todos.find((currentTodo) => currentTodo.id === id);
-
-  if (!todo) {
-    return response.status(404).json({ error: 'Todd not found' });
-  }
+app.patch('/todos/:id/done', checksExistsUserAccount, checkExistsTodo, (request, response) => {
+  const { todo } = request;
 
   todo.done = true;
 
   return response.status(200).json(todo);
 });
 
-// app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
-//   // Complete aqui
-// });
+app.delete('/todos/:id', checksExistsUserAccount, checkExistsTodo, (request, response) => {
+  const { todo, user } = request;
+
+  user.todos.splice(todo, 1);
+  return response.status(204).send();
+});
 
 module.exports = app;
