@@ -34,33 +34,33 @@ describe('Todos', () => {
     )
   });
 
-  // it('should be able to create a new todo', async () => {
-  //   const userResponse = await request(app)
-  //     .post('/users')
-  //     .send({
-  //       name: 'John Doe',
-  //       username: 'user2'
-  //     });
+  it('should be able to create a new todo', async () => {
+    const userResponse = await request(app)
+      .post('/users')
+      .send({
+        name: 'John Doe',
+        username: 'user2'
+      });
 
-  //   const todoDate = new Date();
+    const todoDate = new Date();
 
-  //   const response = await request(app)
-  //     .post('/todos')
-  //     .send({
-  //       title: 'test todo',
-  //       deadline: todoDate
-  //     })
-  //     .set('username', userResponse.body.username)
-  //     .expect(201);
+    const response = await request(app)
+      .post('/todos')
+      .send({
+        title: 'test todo',
+        deadline: todoDate
+      })
+      .set('username', userResponse.body.username)
+      .expect(201);
 
-  //   expect(response.body).toMatchObject({
-  //     title: 'test todo',
-  //     deadline: todoDate.toISOString(),
-  //     done: false
-  //   });
-  //   expect(validate(response.body.id)).toBe(true);
-  //   expect(response.body.created_at).toBeTruthy();
-  // });
+    expect(response.body).toMatchObject({
+      title: 'test todo',
+      deadline: todoDate.toISOString(),
+      done: false
+    });
+    expect(validate(response.body.id)).toBe(true);
+    expect(response.body.created_at).toBeTruthy();
+  });
 
   // it('should be able to update a todo', async () => {
   //   const userResponse = await request(app)
